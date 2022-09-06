@@ -4,3 +4,5 @@
 - JavaScript
 - CSS
 - HTML
+
+https://taylorcoleroemer18.github.io/guess-my-number-game/
