@@ -4,6 +4,39 @@ let secretNumber = Math.trunc(Math.random() * 20) + 1;
 let score = 20;
 let highScore = 0;
 
+let timer = 15
+
+const countdown = () => {
+  timer = 15
+  const interval = setInterval(() => {
+    if (timer === 0) {
+      returnToOriginal()
+      clearInterval(interval)
+    } else {
+      timer--
+      displayMessage(`🎉 Correct number! Game will restart in ${timer}...`)
+    }
+
+  }, 1000);
+
+  return () => {
+    clearInterval(interval)
+  }
+}
+
+const returnToOriginal = () => {
+  score = 20;
+  secretNumber = Math.trunc(Math.random() * 20) + 1;
+
+  displayMessage('Start guessing...');
+  displayScore(score);
+  displayNumber('?');
+
+  document.querySelector('.guess').value = '';
+  document.querySelector('body').style.backgroundColor = '#222';
+  document.querySelector('.number').style.width = '15rem';
+}
+
 const displayMessage = message => {
   document.querySelector('.message').textContent = message;
 };
@@ -26,6 +59,8 @@ document.querySelector('.check').addEventListener('click', () => {
   } else if (guess === secretNumber) {
     displayNumber(secretNumber);
     displayMessage('🎉 Correct number!');
+
+    countdown();
 
     document.querySelector('body').style.backgroundColor = '#60b347';
     document.querySelector('.number').style.width = '30rem';
@@ -51,14 +86,6 @@ document.querySelector('.check').addEventListener('click', () => {
 });
 
 document.querySelector('.again').addEventListener('click', () => {
-  score = 20;
-  secretNumber = Math.trunc(Math.random() * 20) + 1;
-
-  displayMessage('Start guessing...');
-  displayScore(score);
-  displayNumber('?');
-
-  document.querySelector('.guess').value = '';
-  document.querySelector('body').style.backgroundColor = '#222';
-  document.querySelector('.number').style.width = '15rem';
+  timer = 15;
+  returnToOriginal()
 });
